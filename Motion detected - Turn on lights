@@ -1,0 +1,58 @@
+--[[
+%% properties
+%% autostart
+5 value
+%% events
+%% globals
+--]]
+
+-- 5 is the value of the Pir/Motion detector
+
+local countdown = 0;
+local movement;
+
+local duration  = 60; -- seconds to keep on the light after last detected movement
+
+
+
+while true do
+  local movement = tonumber(fibaro:getValue(5, 'value'));
+
+   if ( movement == 1 ) then
+    countdown = duration;
+    --fibaro:debug("Motion!") --debug
+  end
+
+--fibaro:debug("lamp 76:" .. tonumber(fibaro:getValue(76, 'value')) .. " räknare: " .. countdown )
+  
+  if ( countdown > 0 ) then
+	 if ( countdown > 0 and tonumber(fibaro:getValue(74, 'value')) == 0 ) then
+      	fibaro:call(74, "turnOn");
+      end
+    
+	 if ( countdown > 0 and tonumber(fibaro:getValue(76, 'value')) == 0 ) then
+      	fibaro:call(76, "turnOn");
+      end
+
+    countdown = countdown - 1;
+  end
+  
+
+	if ( countdown == 0 ) then
+    --fibaro:debug("Count is 0") --debug
+ 
+      if ( countdown == 0 and tonumber(fibaro:getValue(74, 'value')) == 1 ) then
+        fibaro:call(74, "turnOff");
+      end
+    
+      if ( countdown == 0 and tonumber(fibaro:getValue(76, 'value')) == 1 ) then
+        fibaro:call(76, "turnOff");
+      end
+
+  	end
+  
+  --fibaro:debug("Movement: " .. movement .. " Countdown: " .. countdown .. " Light: " .. fibaro:getValue(74, 'value'));
+  fibaro:sleep(1000);
+end
+
+
