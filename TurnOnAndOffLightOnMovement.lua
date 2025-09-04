@@ -6,6 +6,7 @@
 --]]
 
 local debug = false -- set to true to show debug logs
+local delayMinutes = 15 -- Delay in minutes before turning off the light
 
 -- colorful debug messages
 local function debugLog(color, message)
@@ -21,7 +22,7 @@ end
 
 local motionSensorId = 125 -- Replace with your motion sensor device ID
 local lamps = {173, 174}  -- IDs for the lamps in an array
-local delay = 60 * 3 -- Delay in minutes before turning off the light
+local delay = 60 * delayMinutes -- Delay in minutes before turning off the light
 local motionDetectedTime = 0
 local lampNames = {}
 
